@@ -1,0 +1,45 @@
+# SQLite version 3.x
+#   gem install sqlite3
+default: &default
+  adapter: postgresql
+  pool: 5
+  timeout: 5000
+
+development:
+  <<: *default
+  database: db/development.postgresql
+  adapter: postgresql
+  encoding: unicode
+  database: court-booker
+  pool: 5
+  username: court-booker
+  password:
+# Warning: The database defined as "test" will be erased and
+# # re-generated from your development database when you run "rake".
+# # Do not set this db to the same as development or production.
+test:
+  <<: *default
+  database: db/development.postgresql
+  adapter: postgresql
+  encoding: unicode
+  database: court-booker_test
+  username: court-booker_test
+  password:
+
+staging:
+  <<: *default
+  adapter: postgresql
+  encoding: unicode
+  database:
+  pool: 5
+  username:
+  password:
+
+production:
+  <<: *default
+  adapter: postgresql
+  encoding: unicode
+  database: court-booker
+  pool: 5
+  username: court-booker
+  password:

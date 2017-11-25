@@ -1,0 +1,71 @@
+<div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <h1>Main#index</h1>
+        <p>Find me in app/views/main/index.html.erb</p>
+        登録番号 : <%= @account_number %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 form-group">
+      <%= form_tag(main_reserve_confirm_path, method: :post) do %>
+        <input type="hidden" name="userid" value=<%= @account_number %>  >
+        <div>
+          <p class="control-label"><b>アカウントパスワード</b></p>
+          <input type="passwprd" class="form-control" placeholder="Password" name="passwd" required>
+        </div>
+        <div class="radio">
+          <p class="control-label"><b>予約希望月</b></p>
+          <label>
+            <input type="radio" name="rsrv_month" value="this_month" checked>
+            今月
+          </label>
+        　<label>
+            <input type="radio" name="rsrv_month"value="next_month">
+            来月
+          </label>
+        </div>
+        <div>
+          <p class="control-label"><b>予約日</b></p>
+          <select class="form-control" name="rsrv_day">
+            <% day_range = Range.new(1,31) %>
+            <% day_range.each do |d| %>
+              <option value="<%= d %>" <%= "selected" if d == 1 %>><%= d %></option>
+            <% end %>
+          </select>
+        </div>
+        <div>
+          <p class="control-label"><b>希望コート</b></p>
+          <select multiple class="form-control" name="rsrv_court_name[]">
+            <% @court_names.each do |n| %>
+              <option value="<%= n %>" <%= "selected" if n == "日比谷公園" %>><%= n %></option>
+            <% end %>
+          </select>
+        </div>
+        <div>
+          <p class="control-label"><b>希望時間</b></p>
+          <% @rsrv_times.each do |t| %>
+          <label class="checkbox">
+            <p><input type="checkbox" name="rsrv_time[]" value="<%= t %>"><%= t %></p>
+          </label>
+          <% end %>
+        </div>
+        <div>
+          <input type="submit" value="確認画面へ">
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <a href="/top/login">他のアカウントでログイン</a>
+    </div>
+  </div>
+</div>

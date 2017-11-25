@@ -1,0 +1,79 @@
+<h1>Main#reserve_confirm</h1>
+<p>Find me in app/views/main/reserve_confirm.html.erb</p>
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 form-group">
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <td>Asset</td>
+              <td>Value</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="success">
+              <td>登録番号</td>
+              <td><%= @userid %></td>
+            </tr>
+            <tr>
+              <td>パスワード</td>
+              <td>※表示されません</td>
+            </tr>
+            <tr class="success">
+              <td>希望月</td>
+              <%= this_next_month = "今月" if @rsrv_month == "this_month" %>
+              <%= this_next_month = "来月" if @rsrv_month == "next_month" %>
+              <td><%= this_next_month %></td>
+            </tr>
+            <tr>
+              <td>希望日</td>
+              <td><%= @rsrv_day %></td>
+            </tr>
+            <tr class="success">
+              <td>希望コート</td>
+              <td><%= @rsrv_court_name %></td>
+            </tr>
+            <tr>
+              <td>希望時間帯</td>
+              <td><%= @rsrv_time %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 form-group">
+      <%= form_tag(main_reserve_path, method: :post) do %>
+        <input type="hidden" name="userid" value=<%= @userid %>  >
+        <input type="hidden" name="passwd" value=<%= @passwd %>  >
+        <input type="hidden" name="rsrv_month" value=<%= @rsrv_month %>  >
+        <input type="hidden" name="rsrv_day" value=<%= @rsrv_day %>  >
+        <% @rsrv_court_name.each do |c| %>
+          <input type="hidden" name="rsrv_court_name[]" value="<%= c %>"  >
+        <% end %>
+        <% @rsrv_time.each do |t| %>
+          <input type="hidden" name="rsrv_time[]" value="<%= t %>"  >
+        <% end %>
+        <div>
+          <input type="submit" value="予約開始">
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <a href="/top/login">他のアカウントでログイン</a>
+    </div>
+  </div>
+</div>

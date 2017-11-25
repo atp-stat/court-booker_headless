@@ -35,3 +35,15 @@ rsrv_day = calender_days.index(@rsrv_day)
 driver.find_elements(:class, 'calclick')[rsrv_day].click
 # 一致していなかったら"次月"をクリックしてからカレンダーから引数(日)の日をクリック
 ```
+
+
+## UseCase
+1. /top/login から登録番号を入力して /main/index へ
+1. /main/index でコートブッカーを使った予約状況を閲覧
+1. /main/index から予約条件を入力してから予約ボタンを押して /main/reserve/confirm へ
+1. /main/reserve/confirm から予約条件を確認し、検索実行ボタンを押して /main/reserve でタスクを実行
+1. タスク実行中は /main/reserve で /reserve/doing をポーリング（jsコンソールで進捗は確認可能）
+1. タスク実行中は /main/reserve の 中止ボタン で起動中のタスクをkillして /main/reserve へ戻ることができる
+  1. 成功したら /main/reserve/success 画面へ
+  1. エラーが出たら /main/reserve/failure 画面へ
+1. /main/reserve/success or failure で結果を確認したら 戻るボタン で /main/index へ

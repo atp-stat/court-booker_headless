@@ -1,3 +1,21 @@
-test.rb
-/vendor/bundle
+# Ignore modified config file for secure
+config.rb
+
+# Ignore bundler config.
 /.bundle
+/vendor/bundle
+
+# Ignore the default SQLite database.
+/db/*.sqlite3
+/db/*.sqlite3-journal
+
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+# Ignore memo file.
+memo.rb
+memo.md
+test.rb

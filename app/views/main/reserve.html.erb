@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <h3>Result</h3>
+      <% if @court_book_result[:status] == "success" %>
+        <p>Success! Reserved the tennis court -> <%= "#{@court_book_result[:rsrv_day]}日 #{@court_book_result[:rsrv_time]}, #{@court_book_result[:rsrv_court_name]}" %></p>
+        <p>Reseved number : <%= "#{@court_book_result[:reserve_number]}" %></p>
+      <% else %>
+        <p>Error... Do restart.</p>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <a href="/top/login">他のアカウントでログイン</a>
+    </div>
+  </div>
+</div>
