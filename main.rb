@@ -2,7 +2,7 @@ require 'selenium-webdriver'
 require './config.rb'
 
 ua = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36"
-caps = Selenium::WebDriver::Remote::Capabilities.chrome("chromeOptions" => {binary: '/usr/bin/google-chrome', args: ["--headless", "--disable-gpu", "--user-agent=#{ua}", "window-size=1280x800"]})
+caps = Selenium::WebDriver::Remote::Capabilities.chrome("chromeOptions" => {binary: '/usr/bin/google-chrome', args: ["--headless", "--disable-gpu", "--user-agent=#{ua}", "window-size=1280x8000"]})
 driver = Selenium::WebDriver.for :chrome, desired_capabilities: caps
 driver.navigate.to "https://yoyaku.sports.metro.tokyo.jp/user/view/user/homeIndex.html"
 driver.find_elements(:id, 'goBtn')[1].click
@@ -166,12 +166,12 @@ while court_rsrv_flag == 0
       court_tables[court_index_number].find_elements(:id, 'isNotEmp')[time_index_number].click
       if court_tables[court_index_number].find_elements(:id, 'isNotEmp')[time_index_number].find_element(:id, 'sel').attribute('value') == 1.to_s
         court_rsrv_flag = 1
-        p "[success!!] Reserved the tennis court -> #{prefer_park_names[n]},#{prefer_times[t]}"
+        p "[Empty!!] Empty the tennis court -> #{prefer_park_names[n]},#{prefer_times[t]}"
         @prefer_park_name = prefer_park_names[n]
         @prefer_time = prefer_times[t]
         break
       else
-        p "[false...] Full of reservation the tennis court -> #{prefer_park_names[n]},#{prefer_times[t]}"
+        p "[False] Full of reservation the tennis court -> #{prefer_park_names[n]},#{prefer_times[t]}"
       end
     }
     if court_rsrv_flag == 1

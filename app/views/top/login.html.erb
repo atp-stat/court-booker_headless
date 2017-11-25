@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <h1>Enter your number</h1>
+        <p>Find me in app/views/top/login.html.erb</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 form-group">
+      <%= form_tag(main_index_path, method: :post) do %>
+        <div>
+          登録番号（8桁） : <input type="keyword" name="account_number" required>
+        </div>
+        <div>
+          <input type="submit" value="ログイン">
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
