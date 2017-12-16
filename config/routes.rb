@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root 'top#login'
 
   get 'top/login'
 
