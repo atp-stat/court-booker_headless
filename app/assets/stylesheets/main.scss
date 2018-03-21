@@ -1,3 +1,24 @@
 // Place all the styles related to the main controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.pannel-reserve-result {
+  background-color: black;
+  box-shadow:5px 5px 10px;
+  border:1px solid #000;
+}
+
+ul.list-reserve-result {
+  transition: text-shadow .2s;
+  color: #66ccff;
+  text-shadow: 0 0 8px rgba(120, 200, 255, .6);
+  &:hover {
+    text-shadow: 0 0 10px rgba(120, 200, 255, .9);
+  }
+}
+
+li.list-item-reserve-result {
+  background-color: rgba(0,0,0,0);
+  border-style: none;
+}

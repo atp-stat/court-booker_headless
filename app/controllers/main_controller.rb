@@ -1,4 +1,5 @@
 class MainController < ApplicationController
+  protect_from_forgery except: :chat # searchアクションを除外
   include CourtBook
 
   def index
@@ -15,7 +16,6 @@ class MainController < ApplicationController
     @rsrv_day = params[:rsrv_day]
     @rsrv_court_name = params[:rsrv_court_name]
     @rsrv_time = params[:rsrv_time]
-    @court_book_result = court_book(@userid, @passwd, @rsrv_month, @rsrv_day, @rsrv_court_name, @rsrv_time)
   end
 
   def reserve_confirm
@@ -27,12 +27,16 @@ class MainController < ApplicationController
     @rsrv_time = params[:rsrv_time]
   end
 
-  def reserve_seccess
-    @account_number = params[:account_number]
-  end
-
-  def reserve_failure
-    @account_number = params[:account_number]
+  def reserve_exec
+    debug = params
+    userid = params[:userid]
+    passwd = params[:passwd]
+    rsrv_month = params[:rsrv_month]
+    rsrv_day = params[:rsrv_day]
+    rsrv_court_name = params[:rsrv_court_name]
+    rsrv_time = params[:rsrv_time]
+    CourtBook.court_book(userid, passwd, rsrv_month, rsrv_day, rsrv_court_name, rsrv_time)
+    return render json: { result: 'finished' }
   end
 
   private

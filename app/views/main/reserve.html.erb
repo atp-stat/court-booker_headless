@@ -1,19 +1,31 @@
+<p hidden data-user-id="<%= @userid %>" id="user-id"></p>
+<p hidden data-user-passwd="<%= @passwd %>" id="user-passwd"></p>
+<p hidden data-rsrv-month="<%= @rsrv_month %>" id="rsrv-month"></p>
+<p hidden data-rsrv-day="<%= @rsrv_day %>" id="rsrv-day"></p>
+<p hidden data-rsrv-court-name="<%= @rsrv_court_name %>" id="rsrv-court-name"></p>
+<p hidden data-rsrv-time="<%= @rsrv_time %>" id="rsrv-time"></p>
+
 <div class="container">
   <div class="row">
     <div class="col-xs-12">
-      <h3>Result</h3>
-      <% if @court_book_result[:status] == "success" %>
-        <p>Success! Reserved the tennis court -> <%= "#{@court_book_result[:rsrv_day]}日 #{@court_book_result[:rsrv_time]}, #{@court_book_result[:rsrv_court_name]}" %></p>
-        <p>Reseved number : <%= "#{@court_book_result[:reserve_number]}" %></p>
-      <% else %>
-        <p>Error... Do restart.</p>
-      <% end %>
+      <h3>Working!</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12  ">
+      <div class="pannel-reserve-result">
+        <ul class="list-group list-reserve-result" id="message-list">
+        </ul>
+      </div>
     </div>
   </div>
 </div>
 
 <div class="container">
   <div class="row">
+    <div class="col-xs-12">
+      <p></p>
+    </div>
     <div class="col-xs-12">
       <a href="/top/login">他のアカウントでログイン</a>
     </div>

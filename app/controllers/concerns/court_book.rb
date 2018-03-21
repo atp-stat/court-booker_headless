@@ -7,12 +7,25 @@ module CourtBook
   end
 
   # メソッド
-  def court_book(userid, passwd, rsrv_month, rsrv_day, rsrv_court_name, rsrv_time)
-    ua = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36"
-    caps = Selenium::WebDriver::Remote::Capabilities.chrome("chromeOptions" => {binary: '/usr/bin/google-chrome', args: ["--headless", "--disable-gpu", "--user-agent=#{ua}", "window-size=1280x8000"]})
-    driver = Selenium::WebDriver.for :chrome, desired_capabilities: caps
+  def self.court_book(userid, passwd, rsrv_month, rsrv_day, rsrv_court_name, rsrv_time)
+    begin
+      sleep 10
+      ActionCable.server.broadcast 'chat_room', message: "Start CourtBook! I wish you reserve the court you wish!"
+      ua = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36"
+      caps = Selenium::WebDriver::Remote::Capabilities.chrome("chromeOptions" => {binary: '/usr/bin/google-chrome', args: ["--headless", "--disable-gpu", "--user-agent=#{ua}", "window-size=1280x8000"]})
+      driver = Selenium::WebDriver.for :chrome, desired_capabilities: caps
+      ActionCable.server.broadcast 'chat_room', message: "Chrome is ready."
+    rescue => e
+      error_msg = "Unknown error occured ! Check the code!"
+      Utility::ErrorHandling.output_task_log(e,error_msg)
+      driver.quit
+      result_data = {status: "error", rsrv_day: "", rsrv_time: "", rsrv_court_name: "", reserve_number: ""}
+      return result_data
+    end
+
     begin
       driver.navigate.to "https://yoyaku.sports.metro.tokyo.jp/user/view/user/homeIndex.html"
+      ActionCable.server.broadcast 'chat_room', message: "Open the site TMGBC."
       driver.find_elements(:id, 'goBtn')[1].click
       form_userid = driver.find_element(:id, 'userid')
       form_userid.clear
@@ -22,12 +35,14 @@ module CourtBook
       form_passwd.send_keys(passwd)
       sleep 3
       driver.find_element(:id, 'login').click
+      ActionCable.server.broadcast 'chat_room', message: "Login successed!"
+
       driver.find_element(:id, 'purposeSearch').click
       if rsrv_month == 'this_month'
       elsif rsrv_month == 'next_month'
         driver.find_element(:xpath, '//*[@id="calendar"]/table[1]/tbody/tr/td/div/a').click
       else
-        p "rsrv_month error. Please put 'this_month' or 'next_month' in 'rsrv_month'"
+        ActionCable.server.broadcast 'chat_room', message: "rsrv_month error. Please put 'this_month' or 'next_month' in 'rsrv_month'"
         driver.quit
         exit
       end
@@ -169,12 +184,12 @@ module CourtBook
             court_tables[court_index_number].find_elements(:id, 'isNotEmp')[time_index_number].click
             if court_tables[court_index_number].find_elements(:id, 'isNotEmp')[time_index_number].find_element(:id, 'sel').attribute('value') == 1.to_s
               court_rsrv_flag = 1
-              p "[Empty!!] Empty the tennis court -> #{prefer_park_names[n]},#{prefer_times[t]}"
+              ActionCable.server.broadcast 'chat_room', message: "[Empty!!] Empty the tennis court -> #{prefer_park_names[n]},#{prefer_times[t]}"
               @prefer_park_name = prefer_park_names[n]
               @prefer_time = prefer_times[t]
               break
             else
-              p "[False] Full of reservation the tennis court -> #{prefer_park_names[n]},#{prefer_times[t]}"
+              ActionCable.server.broadcast 'chat_room', message: "[False] Full of reservation the tennis court -> #{prefer_park_names[n]},#{prefer_times[t]}"
             end
           }
           if court_rsrv_flag == 1
@@ -193,11 +208,13 @@ module CourtBook
       sleep 2
       driver.quit
       result_data = {status: "success", rsrv_day: rsrv_day, rsrv_time: @prefer_time, rsrv_court_name: @prefer_park_name, reserve_number: reserve_number}
+      ActionCable.server.broadcast 'chat_room', message: "[Success!] Reserve the tennis court -> #{result_data}"
       return result_data
     rescue => e
       error_msg = "Unknown error occured ! Check the code!"
+      ActionCable.server.broadcast 'chat_room', message: error_msg
       Utility::ErrorHandling.output_task_log(e,error_msg)
-      # Utility::SlackHandling.post_message(e, "entrustock_system", "entrustock")
+      # Utility::SlackHandling.post_message(e, "entrustock_system", "court-booker")
       driver.quit
       result_data = {status: "error", rsrv_day: "", rsrv_time: "", rsrv_court_name: "", reserve_number: ""}
       return result_data

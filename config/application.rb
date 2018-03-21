@@ -11,6 +11,12 @@ module CourtBooker
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
 
+    # config.action_cable.mount_path = '/cable' # Websocket用の行
+    # Websocket用. よくわかってないけど
+    # ActionCable.server.config.disable_request_forgery_protection = true
+    config.action_cable.url = "ws://54.238.219.24/cable"
+    config.action_cable.allowed_request_origins = [/http:\/\/*/, /https:\/\/*/]
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

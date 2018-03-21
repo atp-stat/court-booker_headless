@@ -3,6 +3,7 @@ source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails'
+gem 'puma'
 # Use postgreSQL as the database for Active Record
 gem 'pg'
 # Use Unicorn as the app server
